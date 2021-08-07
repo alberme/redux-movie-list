@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 
 import Card from 'react-bootstrap/Card';
-import Image from 'react-bootstrap/Image';
 
 export const StyledRBCard = styled(Card)`
-  width: 12rem;
+  width: 14rem;
   
   h5 {
     font-family: Arial Black;
@@ -20,8 +19,6 @@ export const StyledRBCard = styled(Card)`
     font-size: small;
   }
 `
-// whitespace-nowrap
-// text-
 
 export const StyledButtonContainer = styled.div`
   display: flex;

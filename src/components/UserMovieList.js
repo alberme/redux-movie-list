@@ -46,9 +46,6 @@ let UserMovieList = ({ movieList, getMovieList, removeMovieFromList }) => {
             onClose={handleModalClose}
           >
             <MovieDetails selectedMovieId={selectedMovieId} />
-            <YouTubeEmbed
-              movieId={selectedMovieId}
-            />
           </MovieModal>
         )
       }

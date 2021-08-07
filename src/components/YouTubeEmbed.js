@@ -3,8 +3,7 @@ import YouTube from 'react-youtube';
 import TheMovieDbApiService from '../services/themoviedbApi.service';
 import { useEffect, useState } from 'react';
 
-/** width: 340 height: 390  */
-const YouTubeEmbed = ({ width = 1024, height = 512, movieId }) => {
+const YouTubeEmbed = ({ movieDbId, type, width = 720, height = 512 }) => {
   const [youtubeId, setYoutubeId] = useState('');
 
   const handleOnReady = (event) => {
@@ -13,17 +12,18 @@ const YouTubeEmbed = ({ width = 1024, height = 512, movieId }) => {
     event.target.pauseVideo();
   }
 
+  const getYouTubeId = async (movieId) => {
+    const response = await TheMovieDbApiService.getVideos(type, movieDbId);
+    const search = response.results.find(movie => movie.site === 'YouTube');
+    
+    if (search) {
+      setYoutubeId(search.key);
+    }
+  }
 
   useEffect(() => {
-    const getYouTubeId = async (movieId) => {
-      const response = await TheMovieDbApiService.getVideosById(movieId);
-      const search = response.results.find(movie => movie.site === 'YouTube');
-      if (search) {
-        setYoutubeId(search.key);
-      }
-    }
-    getYouTubeId(movieId);
-  }, [movieId]);
+    getYouTubeId(movieDbId);
+  }, [movieDbId]);
 
   return (
     youtubeId &&
@@ -38,7 +38,8 @@ const YouTubeEmbed = ({ width = 1024, height = 512, movieId }) => {
 YouTubeEmbed.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
-  movieId: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 export default YouTubeEmbed;
