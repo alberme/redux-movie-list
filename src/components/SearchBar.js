@@ -1,56 +1,126 @@
+import PropTypes from 'prop-types';
 import { useState } from "react";
-import { Form, Row, Col, Button } from "react-bootstrap";
+import { Form, Row, Col, Button, } from "react-bootstrap";
 
 const SearchBar = ({ onSearch }) => {
-  const [title, setTitle] = useState();
+  const [searchQuery, setSearchQuery] = useState({ query: "", type: "movie" });
 
-  const onFormSubmit = (e) => {
-    e.preventDefault();
+  const onFormSubmit = (event) => {
+    // trigger error message if empty search or type
+    if (!searchQuery.search || !searchQuery.type) {
+      console.log('no search or type')
+      // updateSearchError(true);
+    } else {
+      onSearch(searchQuery);
+    }
+    event.preventDefault();
+  }
 
-    onSearch(title);
+  const handleInputChange = (event) => {
+    const { target } = event;
+    // remove error message if previously triggered on submit, lets use redux
+    // if (searchError) {
+    //   updateSearchError(false);
+    // }
+    // catches any input element without name attribute
+    if (!target.name) {
+      console.warn(`received unnamed element ${target.localName}`);
+      return;
+    }
+    // console.log(target.value);
+    setSearchQuery({ ...searchQuery, [target.name]: target.value });
   }
 
   return (
-    // <Form onSubmit={onFormSubmit}>
-    //   <Row className="align-items-center">
-    //     <Col xs="auto">
-    //       <Form.Label htmlFor="inlineFormInput" visuallyHidden>Search</Form.Label>
-    //       <Form.Control
-    //         className="mb-2"
-    //         id="inlineFormInput"
-    //         placeholder="Search for a Movie or TV Series!"
-    //         />
-    //     </Col>
-    //     <Col xs="auto">
-    //       <Form.Label
-    //         className="me-sm-2"
-    //         htmlFor="inlineFormCustomSelect"
-    //         visuallyHidden
-    //       >
-    //         Type
-    //       </Form.Label>
-    //       <Form.Select className="me-sm-2" id="inlineFormCustomSelect">
-    //         <option value="0">Movie</option>
-    //         <option value="1">Series</option>
-    //         <option value="2">Episode</option>
-    //       </Form.Select>
-    //     </Col>
-    //     <Col className="my-1" xs="auto">
-    //       <Button type="submit">Submit</Button>
-    //     </Col>
-    //   </Row>
-    // </Form>
-    <form onSubmit={onFormSubmit}>
-        <div className="form-group">
-            <label htmlFor="title">Title</label>
-            <input
-                type="text"
-                onChange={(e) => setTitle(e.target.value)}    
+    <Form onSubmit={onFormSubmit}>
+      <Row className="align-items-center">
+        <Col md={6} className="my-1">
+          <Form.Control
+            name="query"
+            placeholder="Search for a Movie or TV Series!"
+            onChange={handleInputChange}   
             />
-        </div>
-        <button type="submit">Search</button>
+        </Col>
+        <Col>
+        <Form.Select
+          className="me-sm-2"
+          name="type"
+          onChange={handleInputChange}
+        >
+          <option>Select Type</option>
+          <option value="movie">Movie</option>
+          <option value="tv">TV Show</option>
+        </Form.Select>
+        </Col>
+        <Col md="auto" className="my-1">
+          <Button type="submit">Search</Button>
+        </Col>
+      </Row>
+    </Form>
+  )
+}
+
+SearchBar.propTypes = {
+  onSubmit: PropTypes.func,
+}
+
+
+export default SearchBar;
+
+/**
+ * 
+ * import { useState } from 'react';
+import { PropTypes } from 'prop-types';
+import 'bootstrap/dist/css/bootstrap.css';
+// Put any other imports below so that CSS from your
+// components takes precedence over default styles.
+
+const SearchBar = ({ onSubmit }) => {
+  const [query, updateQuery] = useState({ search: "", type: "movie", instigator: "search" });
+  const [searchError, updateSearchError] = useState(false);
+
+  const handleSubmit = (event) => {
+    // trigger error message if empty search or type
+    if (!query.search || !query.type) {
+      updateSearchError(true);
+    } else {
+      onSubmit(query);
+    }
+    event.preventDefault();
+  }
+
+  const handleInputChange = (event) => {
+    const { target } = event;
+    // remove error message if previously triggered on submit
+    if (searchError) {
+      updateSearchError(false);
+    }
+    // catches any input element without name attribute
+    if (!target.name) {
+      console.warn(`received unnamed element ${target.localName}`);
+      return;
+    }
+    // console.log(target.value);
+    updateQuery({ ...query, [target.name]: target.value });
+  }
+
+  return (
+    <form className="form-inline m-2" onSubmit={handleSubmit}>
+      { searchError ? <div className="alert alert-danger" role="alert">Please enter a movie</div> : null }
+      <input className="form-control rounded w-50 p-2 float-left" name="search" type="search" placeholder="Search" aria-label="Search" onChange={handleInputChange} />
+      <select className="form-control w-25 p-2 float-right" name="type" onChange={handleInputChange}>
+        <option value="movie">Movie</option>
+        <option value="series">Series</option>
+        <option value="episode">Episode</option>
+      </select>
+      <button className="btn btn-outline-primary" type="submit">Search</button>
     </form>
   )
 }
 
+SearchBar.propTypes = {
+  onSubmit: PropTypes.func,
+}
+
 export default SearchBar;
+ */
