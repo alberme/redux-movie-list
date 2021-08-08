@@ -53,7 +53,15 @@ const MovieCard = ({ movie, onShowDetails, onAddToMovieList, onRemoveFromMovieLi
   }
 
 MovieCard.propTypes = {
-  movie: PropTypes.object,
+  movie: PropTypes.shape({
+    type: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    poster_path: PropTypes.string.isRequired,
+    id: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+    ]).isRequired,
+  }),
   onShowDetails: PropTypes.func,
   onAddToMovieList: PropTypes.func,
   onRemoveFromMovieList: PropTypes.func,
