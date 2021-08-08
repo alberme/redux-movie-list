@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { PropTypes } from 'prop-types';
-import { Container, Row, Col, Image, Button } from 'react-bootstrap';
-import YouTubeEmbed from './YouTubeEmbed';
+import { Row, Col, Image, Button } from 'react-bootstrap';
+import { StyledDetailsContainer } from './styled';
+import YouTubeEmbed from '../YouTubeEmbed';
 
-import TheMovieDbApi from '../services/themoviedbApi.service';
-import "../styles/MovieDetails.css";
+import TheMovieDbApi from '../../services/themoviedbApi.service';
 
 const MovieDetails = ({ movieDbId, type }) => {
   const baseImgUrl = "https://image.tmdb.org/t/p/w300";
@@ -32,7 +32,7 @@ const MovieDetails = ({ movieDbId, type }) => {
   }
 
   return (
-  <Container>
+  <StyledDetailsContainer backgroundImage={"https://mdbootstrap.com/img/Photos/Others/images/76.jpg"}>
     <Row>
       <Col>
         <Image
@@ -69,13 +69,17 @@ const MovieDetails = ({ movieDbId, type }) => {
         />
       </Col>
     </Row>
-  </Container>
+  </StyledDetailsContainer>
 
   );
 }
 
 MovieDetails.propTypes = {
-  movieDbId: PropTypes.string.isRequired,
+  movieDbId: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
+  type: PropTypes.string.isRequired
 };
 
 export default MovieDetails;

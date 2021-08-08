@@ -34,7 +34,7 @@ let MovieSearch = ({ addMovieToList }) => {
    */
   const handleAddToUserList = async (id) => {
     const response = await TheMovieDbApiService.getDetails(searchResults.type, id);
-    addMovieToList(response);
+    addMovieToList(response); // will need to expand this with type inside response, let redux handle it
   }
 
   /**

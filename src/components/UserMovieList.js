@@ -45,7 +45,10 @@ let UserMovieList = ({ movieList, getMovieList, removeMovieFromList }) => {
             show={showModal}
             onClose={handleModalClose}
           >
-            <MovieDetails selectedMovieId={selectedMovieId} />
+            <MovieDetails
+              movieDbId={selectedMovieId}
+              
+            />
           </MovieModal>
         )
       }
